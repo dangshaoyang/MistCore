@@ -703,7 +703,7 @@ class npc_the_lich_king_controller : public CreatureScript
                         if (Creature* Valithria = ObjectAccessor::GetCreature(*me, _instance->GetData64(DATA_VALITHRIA_DREAMWALKER)))
                             temp->AI()->AttackStart(Valithria);
                 }
-                else if (NextSummonId) // Suppressers (2 * 3 invocations à des spawns aléatoires)
+                else if (NextSummonId) // Suppressers (2 * 3 invocations ?des spawns aléatoires)
                 {
                     for (uint8 i = 0; i < 2; i++)
                     {

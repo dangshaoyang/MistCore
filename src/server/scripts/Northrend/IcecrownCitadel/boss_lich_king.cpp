@@ -1925,7 +1925,7 @@ class npc_terenas_menethil : public CreatureScript
 
                 _events.Update(diff);
 
-                if (MustCast && !me->HasUnitState(UNIT_STATE_CASTING)) // Problème : en HM, il est toujours censé cast
+                if (MustCast && !me->HasUnitState(UNIT_STATE_CASTING)) // Problème : en HM, il est toujours cens?cast
                     DoCastAOE(SPELL_RESTORE_SOULS);
 
                 while (uint32 eventId = _events.ExecuteEvent())

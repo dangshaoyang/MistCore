@@ -58,7 +58,7 @@ HORDE :
 -- Sorts partagés
 71335 - Poix ardente
 
-71188 - Experimenté
+71188 - Experiment?
 71193 - Vétéran
 71195 - Elite
 
@@ -74,7 +74,7 @@ HORDE :
 69705 - En dessous de zéro
 
 -- Sorts Soldat-Artilleur/Missilier
-69679 - Artillerie à roquettes
+69679 - Artillerie ?roquettes
 
 -- Sorts Sergents
 69651 - 72570 - Frappe de lésion

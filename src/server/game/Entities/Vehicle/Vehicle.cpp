@@ -29,6 +29,7 @@
 #include "SpellMgr.h"
 #include "SpellInfo.h"
 #include "MoveSplineInit.h"
+#include "LuaEngine.h"
 
 Vehicle::Vehicle(Unit* unit, VehicleEntry const* vehInfo, uint32 creatureEntry) : _me(unit), _vehicleInfo(vehInfo), _usableSeatNum(0), _creatureEntry(creatureEntry),
                                                                                   _isBeingDismissed(false), _passengersSpawnedByAI(false), _canBeCastedByPassengers(false)
@@ -49,6 +50,10 @@ Vehicle::Vehicle(Unit* unit, VehicleEntry const* vehInfo, uint32 creatureEntry) 
 
 Vehicle::~Vehicle()
 {
+#ifdef ELUNA
+    Eluna::RemoveRef(this);
+#endif
+
     for (SeatMap::const_iterator itr = Seats.begin(); itr != Seats.end(); ++itr)
         ASSERT(!itr->second.Passenger);
 }

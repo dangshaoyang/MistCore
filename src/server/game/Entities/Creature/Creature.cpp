@@ -50,6 +50,7 @@
 #include "Group.h"
 #include "MoveSplineInit.h"
 #include "MoveSpline.h"
+#include "LuaEngine.h"
 // apply implementation of the singletons
 
 TrainerSpell const* TrainerSpellData::Find(uint32 spell_id) const
@@ -171,6 +172,9 @@ m_creatureInfo(NULL), m_creatureData(NULL), m_path_id(0), m_formation(NULL)
 
 Creature::~Creature()
 {
+#ifdef ELUNA
+    Eluna::RemoveRef(this);
+#endif
     m_vendorItemCounts.clear();
 
     delete i_AI;
@@ -2398,6 +2402,13 @@ bool Creature::HasCategoryCooldown(uint32 spell_id) const
 
     CreatureSpellCooldowns::const_iterator itr = m_CreatureCategoryCooldowns.find(spellInfo->Category);
     return(itr != m_CreatureCategoryCooldowns.end() && time_t(itr->second + (spellInfo->CategoryRecoveryTime / IN_MILLISECONDS)) > time(NULL));
+}
+
+uint32 Creature::GetCreatureSpellCooldownDelay(uint32 spellId) const
+{
+    CreatureSpellCooldowns::const_iterator itr = m_CreatureSpellCooldowns.find(spellId);
+    time_t t = time(NULL);
+    return uint32(itr != m_CreatureSpellCooldowns.end() && itr->second > t ? itr->second - t : 0);
 }
 
 bool Creature::HasSpellCooldown(uint32 spell_id) const

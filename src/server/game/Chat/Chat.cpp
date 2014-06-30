@@ -35,6 +35,7 @@
 #include "SpellMgr.h"
 #include "ScriptMgr.h"
 #include "ChatLink.h"
+#include "LuaEngine.h"
 
 bool ChatHandler::load_command_table = true;
 
@@ -323,6 +324,10 @@ bool ChatHandler::ExecuteCommandInTable(ChatCommand* table, const char* text, co
         {
             if (!ExecuteCommandInTable(table[i].ChildCommands, text, fullcmd))
             {
+#ifdef ELUNA
+                if (!sEluna->OnCommand(GetSession() ? GetSession()->GetPlayer() : NULL, oldtext))
+                return true;
+#endif
                 if (text && text[0] != '\0')
                     SendSysMessage(LANG_NO_SUBCMD);
                 else
@@ -470,6 +475,11 @@ int ChatHandler::ParseCommands(const char* text)
 
     if (!ExecuteCommandInTable(getCommandTable(), text, fullcmd))
     {
+#ifdef ELUNA
+        if (!sEluna->OnCommand(GetSession() ? GetSession()->GetPlayer() : NULL, text))
+        return true;
+#endif
+
         if (m_session && AccountMgr::IsPlayerAccount(m_session->GetSecurity()))
             return 0;
 

@@ -604,15 +604,15 @@ extern Position const AllianceFlammePosition[7];
 enum GunshipYells
 {
     SAY_EVENT_01_A_A                        = -2631050, // Faites chauffer les moteurs ! On a rencart avec le destin les gars !
-    SAY_EVENT_02_A_A                        = -2631051, // Accrochez-vous à vos casques !
+    SAY_EVENT_02_A_A                        = -2631051, // Accrochez-vous ?vos casques !
     SAY_EVENT_03_A_A                        = -2631052, // Qu''est-ce que c''est qu''ce truc ? Equipage, ma longue-vue, fissa.
-    SAY_EVENT_04_A_A                        = -2631053, // Par ma barbe... Horde en approche, et pas qu''à moitié !
-    SAY_EVENT_05_A_A                        = -2631054, // Manoeuvre d''esquive ! Tous à vos canons !
-    SAY_EVENT_06_A_A                        = -2631055, // Pleutres à foi jaune ! Nous attaquer par l''angle mort !
+    SAY_EVENT_04_A_A                        = -2631053, // Par ma barbe... Horde en approche, et pas qu''?moiti?!
+    SAY_EVENT_05_A_A                        = -2631054, // Manoeuvre d''esquive ! Tous ?vos canons !
+    SAY_EVENT_06_A_A                        = -2631055, // Pleutres ?foi jaune ! Nous attaquer par l''angle mort !
     SAY_EVENT_07_A_H                        = -2631056, // Ce combat n''est pas le votre, nain. Retirez-vous, ou nous serons forcés de détruire votre vaisseau.'
     SAY_EVENT_08_A_A                        = -2631057, // Pas mon combat ? Mon gars, j''sais pas pour qui tu te prends
 
-    SAY_EVENT_FIGHT_START_A_H               = -2631058, // Saccageurs, Sergents, à l''attaque !
+    SAY_EVENT_FIGHT_START_A_H               = -2631058, // Saccageurs, Sergents, ?l''attaque !
     SAY_EVENT_FIGHT_START_A_A               = -2631059, // Et puis quoi encore ? ''chuis un fils de Forgefer, et
 
     SAY_EVENT_FIGHT_RESPAWN_TIREUR_A_H      = -2631060,

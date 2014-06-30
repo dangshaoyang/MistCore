@@ -45,6 +45,7 @@
 #include "AccountMgr.h"
 #include "DBCStores.h"
 #include "LFGMgr.h"
+#include "LuaEngine.h"
 
 class LoginQueryHolder : public SQLQueryHolder
 {
@@ -1220,6 +1221,10 @@ void WorldSession::HandlePlayerLogin(LoginQueryHolder* holder, PreparedQueryResu
         pCurrChar->SendTalentsInfoData(false);              // original talents send already in to SendInitialPacketsBeforeAddToMap, resend reset state
         SendNotification(LANG_RESET_TALENTS);
     }
+#ifdef ELUNA
+	if (pCurrChar->HasAtLoginFlag(AT_LOGIN_FIRST))
+		sEluna->OnFirstLogin(pCurrChar);
+#endif
 
     if (pCurrChar->HasAtLoginFlag(AT_LOGIN_FIRST))
         pCurrChar->RemoveAtLoginFlag(AT_LOGIN_FIRST);

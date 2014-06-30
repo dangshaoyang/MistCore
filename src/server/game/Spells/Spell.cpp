@@ -57,6 +57,7 @@
 #include "Battlefield.h"
 #include "BattlefieldMgr.h"
 #include "GuildMgr.h"
+#include "LuaEngine.h"
 
 extern pEffect SpellEffects[TOTAL_SPELL_EFFECTS];
 
@@ -597,6 +598,10 @@ m_caster((info->AttributesEx6 & SPELL_ATTR6_CAST_BY_CHARMER && caster->GetCharme
 
 Spell::~Spell()
 {
+#ifdef ELUNA
+    Eluna::RemoveRef(this);
+#endif
+
     // unload scripts
     while (!m_loadedScripts.empty())
     {

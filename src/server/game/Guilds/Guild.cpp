@@ -26,6 +26,7 @@
 #include "SocialMgr.h"
 #include "Log.h"
 #include "AccountMgr.h"
+#include "LuaEngine.h"
 
 #define MAX_GUILD_BANK_TAB_TEXT_LEN 500
 #define EMBLEM_PRICE 10 * GOLD
@@ -1085,6 +1086,10 @@ Guild::Guild() : m_id(0), m_leaderGuid(0), m_createdDate(0), m_accountsNumber(0)
 
 Guild::~Guild()
 {
+#ifdef ELUNA
+    Eluna::RemoveRef(this);
+#endif
+
     SQLTransaction temp(NULL);
     _DeleteBankItems(temp);
 

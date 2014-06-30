@@ -367,7 +367,7 @@ void AreaTrigger::Update(uint32 p_time)
             break;
         }
         case 124503:// Gift of the Ox
-        case 124506:// Gift of the Ox²
+        case 124506:// Gift of the Ox?
         {
             std::list<Unit*> targetList;
             radius = 1.0f;

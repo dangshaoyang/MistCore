@@ -650,7 +650,7 @@ class spell_blood_queen_bloodbolt : public SpellScriptLoader
                     else
                        TargetsMax = 10;
 
-                    if(FirstProc) // Perte de donnée normale : on arrondi à l'entier inférieur
+                    if(FirstProc) // Perte de donnée normale : on arrondi ?l'entier inférieur
                         TargetsNumber = uint8(TargetsMax / 3) + 1;
                     else
                         TargetsNumber = uint8(TargetsMax / 3);
@@ -662,7 +662,7 @@ class spell_blood_queen_bloodbolt : public SpellScriptLoader
                         if(Player * pPlayer = ObjectAccessor::GetPlayer(*GetCaster(), instance->GetData64(DATA_BLOODQUEEN_TARGETS)))
                             targets.push_back(pPlayer);
 
-                    instance->SetData(DATA_BLOODQUEEN_TARGETS_PROC, 1); // Compte le nombre de proc (++ à chaque passage)
+                    instance->SetData(DATA_BLOODQUEEN_TARGETS_PROC, 1); // Compte le nombre de proc (++ ?chaque passage)
                 }
 
             }

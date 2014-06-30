@@ -2,7 +2,7 @@
 #include "Spell.h"
 #include "blackrock_caverns.h"
 
-//todo: реализовать нормальное превращение
+//todo: реализоват?нормальное превращени?
 enum ScriptTexts
 {
     SAY_AGGRO        = 0,

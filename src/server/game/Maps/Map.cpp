@@ -33,6 +33,7 @@
 #include "LFGMgr.h"
 #include "DynamicTree.h"
 #include "Vehicle.h"
+#include "LuaEngine.h"
 
 union u_map_magic
 {
@@ -55,6 +56,10 @@ GridState* si_GridStates[MAX_GRID_STATE];
 Map::~Map()
 {
     sScriptMgr->OnDestroyMap(this);
+
+#ifdef ELUNA
+    Eluna::RemoveRef(this);
+#endif
 
     UnloadAll();
 

@@ -809,6 +809,10 @@ class GameObject : public WorldObject, public GridObject<GameObject>
         uint32 GetDisplayId() const { return GetUInt32Value(GAMEOBJECT_DISPLAYID); }
 
         GameObjectModel * m_model;
+
+        // Event handler
+        EventProcessor m_Events;
+
     protected:
         bool AIM_Initialize();
         uint32      m_spellId;

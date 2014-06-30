@@ -45,6 +45,7 @@
 #include "PacketLog.h"
 #include "ScriptMgr.h"
 #include "AccountMgr.h"
+#include "LuaEngine.h"
 
 #if defined(__GNUC__)
 #pragma pack(1)
@@ -174,7 +175,8 @@ int WorldSocket::SendPacket(WorldPacket const& pct)
     if (sPacketLog->CanLogPacket())
         sPacketLog->LogPacket(pct, SERVER_TO_CLIENT);
 
-    WorldPacket const* pkt = &pct;
+    WorldPacket data = pct;
+    WorldPacket const* pkt = &data;
 
     // TODO : Find the compress flag
     // Empty buffer used in case packet should be compressed
@@ -189,6 +191,10 @@ int WorldSocket::SendPacket(WorldPacket const& pct)
         sLog->outInfo(LOG_FILTER_OPCODES, "S->C: %s", GetOpcodeNameForLogging(pkt->GetOpcode()).c_str());
 
     sScriptMgr->OnPacketSend(this, *pkt);
+#ifdef ELUNA
+    if (!sEluna->OnPacketSend(m_Session, data))
+        return 0;
+#endif
 
     ServerPktHeader header(pkt->size()+2, pkt->GetOpcode(), m_Crypt.IsInitialized());
     m_Crypt.EncryptSend ((uint8*)header.header, header.getHeaderLength());
@@ -727,18 +733,31 @@ int WorldSocket::ProcessIncoming(WorldPacket* new_pct)
             }
 
             sScriptMgr->OnPacketReceive(this, WorldPacket(*new_pct));
+#ifdef ELUNA
+                if (!sEluna->OnPacketReceive(m_Session, *new_pct))
+                    return 0;
+#endif
             return HandleAuthSession(*new_pct);
         case CMSG_KEEP_ALIVE:
             sLog->outDebug(LOG_FILTER_NETWORKIO, "%s", GetOpcodeNameForLogging(opcode).c_str());
             sScriptMgr->OnPacketReceive(this, WorldPacket(*new_pct));
+#ifdef ELUNA
+                sEluna->OnPacketReceive(m_Session, *new_pct);
+#endif
             return 0;
         case CMSG_LOG_DISCONNECT:
             new_pct->rfinish(); // contains uint32 disconnectReason;
             sLog->outDebug(LOG_FILTER_NETWORKIO, "%s", opcodeName.c_str());
             sScriptMgr->OnPacketReceive(this, WorldPacket(*new_pct));
-            return 0;
+#ifdef ELUNA
+			sEluna->OnPacketReceive(m_Session, *new_pct);
+#endif
+			return 0;
         case CMSG_REORDER_CHARACTERS:
             sScriptMgr->OnPacketReceive(this, WorldPacket(*new_pct));
+#ifdef ELUNA
+			sEluna->OnPacketReceive(m_Session, *new_pct);
+#endif
 
             if (m_Session)
                 if (OpcodeHandler* opHandle = opcodeTable[CMSG_REORDER_CHARACTERS])
@@ -751,7 +770,10 @@ int WorldSocket::ProcessIncoming(WorldPacket* new_pct)
             {
                 sLog->outDebug(LOG_FILTER_NETWORKIO, "%s", opcodeName.c_str());
                 sScriptMgr->OnPacketReceive(this, WorldPacket(*new_pct));
-                std::string str;
+#ifdef ELUNA
+				sEluna->OnPacketReceive(m_Session, *new_pct);
+#endif
+				std::string str;
                 *new_pct >> str;
                 if (str != "RLD OF WARCRAFT CONNECTION - CLIENT TO SERVER")
                     return -1;
@@ -761,7 +783,10 @@ int WorldSocket::ProcessIncoming(WorldPacket* new_pct)
             {
                 sLog->outDebug(LOG_FILTER_NETWORKIO, "%s", opcodeName.c_str());
                 sScriptMgr->OnPacketReceive(this, WorldPacket(*new_pct));
-                return m_Session ? m_Session->HandleEnableNagleAlgorithm() : -1;
+#ifdef ELUNA
+				sEluna->OnPacketReceive(m_Session, *new_pct);
+#endif
+				return m_Session ? m_Session->HandleEnableNagleAlgorithm() : -1;
             }
         default:
             {

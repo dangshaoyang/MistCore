@@ -48,6 +48,8 @@ include_directories(
   ${CMAKE_SOURCE_DIR}/dep/gsoap
   ${CMAKE_SOURCE_DIR}/dep/sockets/include
   ${CMAKE_SOURCE_DIR}/dep/SFMT
+  ${CMAKE_SOURCE_DIR}/dep/lualib
+  ${CMAKE_SOURCE_DIR}/src/LuaEngine
   ${CMAKE_SOURCE_DIR}/src/server/collision
   ${CMAKE_SOURCE_DIR}/src/server/collision/Management
   ${CMAKE_SOURCE_DIR}/src/server/collision/Models
@@ -74,6 +76,8 @@ include_directories(
   ${CMAKE_SOURCE_DIR}/src/server/game/AI/SmartScripts
   ${CMAKE_SOURCE_DIR}/src/server/game/AuctionHouse
   ${CMAKE_SOURCE_DIR}/src/server/game/AuctionHouse/AuctionHouseBot
+  ${CMAKE_SOURCE_DIR}/src/server/game/Battlefield
+  ${CMAKE_SOURCE_DIR}/src/server/game/Battlefield/Zones
   ${CMAKE_SOURCE_DIR}/src/server/game/Battlegrounds
   ${CMAKE_SOURCE_DIR}/src/server/game/Battlegrounds/Zones
   ${CMAKE_SOURCE_DIR}/src/server/game/BattlePet

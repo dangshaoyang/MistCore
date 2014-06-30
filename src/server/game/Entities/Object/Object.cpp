@@ -51,6 +51,7 @@
 #include "Group.h"
 #include "Battlefield.h"
 #include "BattlefieldMgr.h"
+#include "LuaEngine.h"
 
 uint32 GuidHigh2TypeId(uint32 guid_hi)
 {
@@ -89,7 +90,11 @@ Object::Object() : m_PackGUID(sizeof(uint64)+1)
 
 WorldObject::~WorldObject()
 {
-    // this may happen because there are many !create/delete
+#ifdef ELUNA
+    Eluna::RemoveRef(this);
+#endif
+
+   // this may happen because there are many !create/delete
     if (IsWorldObject() && m_currMap)
     {
         if (GetTypeId() == TYPEID_CORPSE)
@@ -103,6 +108,10 @@ WorldObject::~WorldObject()
 
 Object::~Object()
 {
+#ifdef ELUNA
+    Eluna::RemoveRef(this);
+#endif
+
     if (IsInWorld())
     {
         sLog->outFatal(LOG_FILTER_GENERAL, "Object::~Object - guid=" UI64FMTD ", typeid=%d, entry=%u deleted but still in world!!", GetGUID(), GetTypeId(), GetEntry());

@@ -28,6 +28,7 @@
 #include "ObjectMgr.h"
 #include "Util.h"
 #include "ScriptMgr.h"
+#include "LuaEngine.h"
 
 /// Create the Weather object
 Weather::Weather(uint32 zone, WeatherData const* weatherChances)
@@ -39,6 +40,13 @@ Weather::Weather(uint32 zone, WeatherData const* weatherChances)
 
     sLog->outInfo(LOG_FILTER_GENERAL, "WORLD: Starting weather system for zone %u (change every %u minutes).", m_zone, (uint32)(m_timer.GetInterval() / (MINUTE*IN_MILLISECONDS)));
 }
+
+Weather::~Weather()
+{
+#ifdef ELUNA
+    Eluna::RemoveRef(this);
+#endif
+};
 
 /// Launch a weather update
 bool Weather::Update(uint32 diff)

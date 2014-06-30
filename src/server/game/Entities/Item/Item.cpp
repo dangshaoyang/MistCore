@@ -26,6 +26,7 @@
 #include "SpellInfo.h"
 #include "ScriptMgr.h"
 #include "ConditionMgr.h"
+#include "LuaEngine.h"
 
 void AddItemsSetItem(Player* player, Item* item)
 {
@@ -274,6 +275,9 @@ Item::~Item()
  /*   if (Player * plr = GetOwner())
         if (plr->RemoveItemByDelete(this))
             sLog->OutMistCore("Item %u on player guid %u is in destructor, and pointer is still referenced in player's data ...", GetEntry(), plr->GetGUIDLow());*/
+#ifdef ELUNA
+    Eluna::RemoveRef(this);
+#endif
 }
 
 bool Item::Create(uint32 guidlow, uint32 itemid, Player const* owner)

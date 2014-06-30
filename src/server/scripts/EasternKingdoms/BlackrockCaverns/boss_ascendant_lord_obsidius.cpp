@@ -1,7 +1,7 @@
 #include "ScriptPCH.h"
 #include "blackrock_caverns.h"
 
-//todo: сделать спелл трансформации
+//todo: сделат?спел?трансформаци?
 
 enum ScriptTexts
 {

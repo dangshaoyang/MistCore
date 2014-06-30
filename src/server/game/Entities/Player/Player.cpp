@@ -81,6 +81,7 @@
 #include "BattlefieldMgr.h"
 #include "BattlefieldMgr.h"
 #include "TicketMgr.h"
+#include "LuaEngine.h"
 
 #define ZONE_UPDATE_INTERVAL (1*IN_MILLISECONDS)
 
@@ -968,6 +969,10 @@ Player::~Player()
 {
     // it must be unloaded already in PlayerLogout and accessed only for loggined player
     //m_social = NULL;
+
+#ifdef ELUNA
+    Eluna::RemoveRef(this);
+#endif
 
     // Note: buy back item already deleted from DB when player was saved
     for (uint8 i = 0; i < PLAYER_SLOTS_COUNT; ++i)
@@ -6186,6 +6191,10 @@ void Player::ResurrectPlayer(float restore_percent, bool applySickness)
     // update visibility
     UpdateObjectVisibility();
 
+#ifdef ELUNA
+    sEluna->OnResurrect(this);
+#endif
+
     if (!applySickness)
         return;
 
@@ -11240,7 +11249,7 @@ uint8 Player::FindEquipSlot(ItemTemplate const* proto, uint32 slot, bool swap) c
                 break;
             }
         }
-        if (CanDualWield() && CanTitanGrip() && proto->SubClass != ITEM_SUBCLASS_WEAPON_POLEARM && proto->SubClass != ITEM_SUBCLASS_WEAPON_STAFF)
+        if (CanDualWield() && CanTitanGrip() /*&& proto->SubClass != ITEM_SUBCLASS_WEAPON_POLEARM && proto->SubClass != ITEM_SUBCLASS_WEAPON_STAFF*/) //dsy: set staff can be dualwield
             slots[1] = EQUIPMENT_SLOT_OFFHAND;
         break;
     case INVTYPE_TABARD:
@@ -13440,6 +13449,9 @@ Item* Player::EquipItem(uint16 pos, Item* pItem, bool update)
 
         ApplyEquipCooldown(pItem2);
 
+#ifdef ELUNA
+        sEluna->OnEquip(this, pItem2, bag, slot);
+#endif
         return pItem2;
     }
 
@@ -13539,6 +13551,9 @@ Item* Player::EquipItem(uint16 pos, Item* pItem, bool update)
         }
     }
 
+#ifdef ELUNA
+        sEluna->OnEquip(this, pItem, bag, slot);
+#endif
     return pItem;
 }
 
@@ -13560,6 +13575,10 @@ void Player::QuickEquipItem(uint16 pos, Item* pItem)
 
         UpdateAchievementCriteria(ACHIEVEMENT_CRITERIA_TYPE_EQUIP_ITEM, pItem->GetEntry());
         UpdateAchievementCriteria(ACHIEVEMENT_CRITERIA_TYPE_EQUIP_EPIC_ITEM, pItem->GetEntry(), slot);
+
+#ifdef ELUNA
+        sEluna->OnEquip(this, pItem, (pos >> 8), slot);
+#endif
     }
 }
 
@@ -22035,6 +22054,10 @@ void Player::WhisperAddon(const std::string& text, const std::string& prefix, Pl
 {
     std::string _text(text);
     sScriptMgr->OnPlayerChat(this, CHAT_MSG_WHISPER, LANG_UNIVERSAL, _text, receiver);
+#ifdef ELUNA
+    if (!sEluna->OnChat(this, CHAT_MSG_WHISPER, LANG_ADDON, _text, receiver))
+        return;
+#endif
 
     if (!receiver->GetSession()->IsAddonRegistered(prefix))
         return;
@@ -26506,6 +26529,9 @@ void Player::StoreLootItem(uint8 lootSlot, Loot* loot)
         UpdateAchievementCriteria(ACHIEVEMENT_CRITERIA_TYPE_LOOT_ITEM, item->itemid, item->count);
         UpdateAchievementCriteria(ACHIEVEMENT_CRITERIA_TYPE_LOOT_TYPE, loot->loot_type, item->count);
         UpdateAchievementCriteria(ACHIEVEMENT_CRITERIA_TYPE_LOOT_EPIC_ITEM, item->itemid, item->count);
+#ifdef ELUNA
+        sEluna->OnLootItem(this, newitem, item->count, this->GetLootGUID());
+#endif
     }
     else
         SendEquipError(msg, NULL, NULL, item->itemid);
@@ -28301,7 +28327,7 @@ void Player::HandleStoreItemCallback(PreparedQueryResult result)
 
                 if ((GetMoney() + po) > MAX_MONEY_AMOUNT)
                 {
-                    std::string message = GetSession()->GetSessionDbcLocale() == LOCALE_frFR ? "Vous avez déjà atteint la limite de pièces d'or" : "You have already reach max amount of gold";
+                    std::string message = GetSession()->GetSessionDbcLocale() == LOCALE_zhCN ? "你持有的金币已经达到上限。" : "You have already reach max amount of gold";
                     GetSession()->SendNotification(message.c_str());
                 }
                 else
@@ -28362,7 +28388,7 @@ void Player::HandleStoreItemCallback(PreparedQueryResult result)
         } while (result->NextRow());
 
         if (ShopError)
-            GetSession()->SendNotification(GetSession()->GetSessionDbcLocale() == LOCALE_frFR ? "Verifiez que vous avez assez de place dans votre inventaire." : "Check if you have free slot in your inventory");
+            GetSession()->SendNotification(GetSession()->GetSessionDbcLocale() == LOCALE_zhCN ? "请检查你的背包是否有足够的空间。" : "Check if you have free slot in your inventory");
     }
 }
 
@@ -28378,7 +28404,7 @@ void Player::HandleStoreLevelCallback(PreparedQueryResult result)
 
         if (level < getLevel() || level > DEFAULT_MAX_LEVEL)
         {
-            GetSession()->SendNotification("Tentative de powerlevel vers un niveau inferieur ou vers un niveau plus eleve que le niveau maximum, veuillez contactez le support boutique si ce message apparait.");
+            GetSession()->SendNotification("你的等级已经达到最大上限，无法继续升级，请联系GM。");
         }
         else
         {

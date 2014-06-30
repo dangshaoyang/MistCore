@@ -246,7 +246,12 @@ class Field
             return std::string((char*)data.value);
         }
 
-    protected:
+		bool IsNull() const
+		{
+			return data.value == NULL;
+		}
+
+	protected:
         Field();
         ~Field();
 

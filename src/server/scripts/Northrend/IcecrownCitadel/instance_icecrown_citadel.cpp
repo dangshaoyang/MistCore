@@ -369,7 +369,7 @@ class instance_icecrown_citadel : public InstanceMapScript
                             }
                         }
 
-                        // On a eliminé ceux qui ne doivent pas etre spawn
+                        // On a elimin?ceux qui ne doivent pas etre spawn
                         if (!mustBeSpawned)
                             continue;
 
@@ -2262,7 +2262,7 @@ class instance_icecrown_citadel : public InstanceMapScript
                         std::map<uint64, uint8>::iterator Itr;
                         for (Itr = GunshipBoardCount.begin(); Itr != GunshipBoardCount.end(); Itr++)
                         {
-                            // Le joueur est monté dessus plus de 2 fois
+                            // Le joueur est mont?dessus plus de 2 fois
                             if (Itr->second > 2)
                                 CanHaveBoardingAchievement = false;
                         }

@@ -42,10 +42,10 @@ enum NPC_DeffiantTroll
 
 #define SAY_WORK_1 "Oops, tempo livre acabou."
 #define SAY_WORK_2 "Não me eletrocutes, mon!"
-#define SAY_WORK_3 "Eu reportarei você a HR!"
+#define SAY_WORK_3 "Eu reportarei voc?a HR!"
 #define SAY_WORK_4 "O trabalhoh erah melhor debaixo da minah!"
 #define SAY_WORK_5 "Estou indo! Estou indo!"
-#define SAY_WORK_6 "Desculpa, mon. Não acontecerá novamente"
+#define SAY_WORK_6 "Desculpa, mon. Não acontecer?novamente"
 #define SAY_WORK_7 "O que estou a fazer errado? Não tenho direito a lanche e duas paragens diárias, mon?"
 #define SAY_WORK_8 "Ouch! Isso doi!"
 
@@ -779,7 +779,7 @@ public:
                 {
                     me->CastSpell(me, SPELL_HORS_DEV_2, false);
                     me->CastSpell(me, SPELL_HAPPY_GUEST, false);
-                    me->MonsterSay("Isto é delicioso", 0, 0);
+                    me->MonsterSay("Isto ?delicioso", 0, 0);
                     HorsTimer = 21000;
                 }
                 else
@@ -972,8 +972,8 @@ public:
                             break;
                             // The Vault will be cracked once the Vault Breaking progress bar reaches 100 percent!
                             // Doing the wrong thing at the wrong time will reduce the progress of the bar.
-                            case 1: me->MonsterTextEmote("olá mundo 1", PlayerGuid, true); Phase++;  Timer = 10000; break;
-                            case 2: me->MonsterTextEmote("olá mundo 2", PlayerGuid, true); Phase++;  Timer = 10000; break;
+                            case 1: me->MonsterTextEmote("ol?mundo 1", PlayerGuid, true); Phase++;  Timer = 10000; break;
+                            case 2: me->MonsterTextEmote("ol?mundo 2", PlayerGuid, true); Phase++;  Timer = 10000; break;
                             case 3: me->MonsterTextEmote("Boa sorte!", PlayerGuid, true);    Phase++;  Timer = 5000;  break;
                             case 4: IsInCorrectPhase = true; Phase = 0; Timer = 1000; break;
                             default:

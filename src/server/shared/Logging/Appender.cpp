@@ -215,9 +215,11 @@ char const* Appender::getLogFilterTypeString(LogFilterType type)
             return "BATTLEFIELD";
         case LOG_FILTER_SERVER_LOADING:
             return "SERVER LOADING";
-        case LOG_FILTER_OPCODES:
-            return "OPCODE";
-        default:
+		case LOG_FILTER_OPCODES:
+			return "OPCODE";
+		case LOG_FILTER_ELUNA:
+			return "ELUNA";
+		default:
             break;
     }
     return "???";
