@@ -28327,7 +28327,7 @@ void Player::HandleStoreItemCallback(PreparedQueryResult result)
 
                 if ((GetMoney() + po) > MAX_MONEY_AMOUNT)
                 {
-                    std::string message = GetSession()->GetSessionDbcLocale() == LOCALE_zhCN ? "你持有的金币已经达到上限。" : "You have already reach max amount of gold";
+                    std::string message = GetSession()->GetSessionDbcLocale() == LOCALE_zhCN ? "你持有的金币已经达到上限。 " : "You have already reach max amount of gold";
                     GetSession()->SendNotification(message.c_str());
                 }
                 else
@@ -28388,7 +28388,7 @@ void Player::HandleStoreItemCallback(PreparedQueryResult result)
         } while (result->NextRow());
 
         if (ShopError)
-            GetSession()->SendNotification(GetSession()->GetSessionDbcLocale() == LOCALE_zhCN ? "请检查你的背包是否有足够的空间。" : "Check if you have free slot in your inventory");
+            GetSession()->SendNotification(GetSession()->GetSessionDbcLocale() == LOCALE_zhCN ? "请检查你的背包是否有足够的空间。 " : "Check if you have free slot in your inventory");
     }
 }
 
@@ -28404,7 +28404,7 @@ void Player::HandleStoreLevelCallback(PreparedQueryResult result)
 
         if (level < getLevel() || level > DEFAULT_MAX_LEVEL)
         {
-            GetSession()->SendNotification("你的等级已经达到最大上限，无法继续升级，请联系GM。");
+            GetSession()->SendNotification("你的等级已经达到最大上限，无法继续升级，请联系GM。 ");
         }
         else
         {
